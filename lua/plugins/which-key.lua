@@ -1,4 +1,4 @@
-return { -- Useful plugin to show you pending keybinds.
+return {
     'folke/which-key.nvim',
     event = 'VeryLazy',
     init = function()
@@ -7,12 +7,10 @@ return { -- Useful plugin to show you pending keybinds.
     end,
     opts = {
         icons = {
-            -- set icon mappings to true if you have a Nerd Font
             mappings = vim.g.have_nerd_font
         },
         preset = 'modern',
 
-        -- Document existing key chains
         spec = {{
             '<leader>a',
             group = '[A]i Code',

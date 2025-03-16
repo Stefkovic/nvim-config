@@ -22,7 +22,7 @@ return {
             },
 
             -- Add lualine to various plugin UIs
-            extensions = {'lazy', 'mason', 'oil'}
+            extensions = {'lazy', 'mason', 'nvim-tree'}
         })
     end
 }
