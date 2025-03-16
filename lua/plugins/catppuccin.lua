@@ -16,7 +16,8 @@ return {
                 enabled = true,
                 enable_ui = true
             },
-            treesitter = true
+            treesitter = true,
+            nvimtree = true
         }
     },
     init = function() vim.cmd.colorscheme("catppuccin-mocha") end

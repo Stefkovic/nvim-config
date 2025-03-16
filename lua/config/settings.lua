@@ -2,6 +2,10 @@
 vim.g.mapleader = " " -- Set space as the leader key
 vim.g.maplocalleader = " " -- Set space as the local leader key
 
+-- disable netrw
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- Display settings
 vim.o.number = true -- Show line numbers
 vim.o.relativenumber = true -- Show relative line numbers
