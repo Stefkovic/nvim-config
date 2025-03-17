@@ -25,7 +25,8 @@ require("lazy").setup({
         colorscheme = {"catppuccin-mocha"}
     },
     checker = {
-        enabled = true
+        enabled = true,
+        notify = false
     },
     rocks = {
         enabled = false
