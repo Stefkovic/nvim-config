@@ -4,33 +4,36 @@ vim.g.maplocalleader = " "
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-    local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-    local out = vim.fn.system({"git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath})
-    if vim.v.shell_error ~= 0 then
-        vim.api.nvim_echo({{"Failed to clone lazy.nvim:\n", "ErrorMsg"}, {out, "WarningMsg"},
-                           {"\nPress any key to exit..."}}, true, {})
-        vim.fn.getchar()
-        os.exit(1)
-    end
+	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+	if vim.v.shell_error ~= 0 then
+		vim.api.nvim_echo(
+			{ { "Failed to clone lazy.nvim:\n", "ErrorMsg" }, { out, "WarningMsg" }, { "\nPress any key to exit..." } },
+			true,
+			{}
+		)
+		vim.fn.getchar()
+		os.exit(1)
+	end
 end
 vim.opt.rtp:prepend(lazypath)
 
 require("config.colemak")
 
 require("lazy").setup({
-    spec = {{
-        import = "plugins"
-    }},
-    install = {
-        colorscheme = {"catppuccin-mocha"}
-    },
-    checker = {
-        enabled = true,
-        notify = false
-    },
-    rocks = {
-        enabled = false
-    }
+	spec = { {
+		import = "plugins",
+	} },
+	install = {
+		colorscheme = { "catppuccin-mocha" },
+	},
+	checker = {
+		enabled = true,
+		notify = false,
+	},
+	rocks = {
+		enabled = false,
+	},
 })
 
 -- Netrw settings
@@ -42,6 +45,8 @@ vim.wo.number = true
 vim.wo.relativenumber = true
 vim.wo.signcolumn = "yes"
 vim.o.termguicolors = true
+vim.o.splitright = true
+vim.o.splitbelow = true
 
 -- Search settings
 vim.o.hlsearch = false
@@ -55,9 +60,9 @@ vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
 vim.o.breakindent = true
 vim.opt.listchars = {
-    tab = '» ',
-    trail = '·',
-    nbsp = '␣'
+	tab = "» ",
+	trail = "·",
+	nbsp = "␣",
 }
 
 -- Mouse and clipboard
@@ -71,7 +76,7 @@ vim.o.timeoutlen = 300
 
 -- Spell checking
 vim.o.spell = false
-vim.o.spelllang = 'en_us'
+vim.o.spelllang = "en_us"
 
 -- File history
 vim.o.undofile = true
@@ -84,26 +89,26 @@ vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin:" .. vim.env.PATH
 
 -- File types
 vim.filetype.add({
-    extension = {
-        templ = "templ"
-    }
+	extension = {
+		templ = "templ",
+	},
 })
 
 -- Highlight when yanking text
-vim.api.nvim_create_autocmd('TextYankPost', {
-    desc = 'Highlight when yanking text',
-    group = vim.api.nvim_create_augroup('kickstart-highlight-yank', {
-        clear = true
-    }),
-    callback = function()
-        vim.highlight.on_yank({
-            timeout = 250
-        })
-    end
+vim.api.nvim_create_autocmd("TextYankPost", {
+	desc = "Highlight when yanking text",
+	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", {
+		clear = true,
+	}),
+	callback = function()
+		vim.highlight.on_yank({
+			timeout = 250,
+		})
+	end,
 })
 
 -- Templ autoformat on save
-vim.api.nvim_create_autocmd({"BufWritePre"}, {
-    pattern = {"*.templ"},
-    callback = vim.lsp.buf.format
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+	pattern = { "*.templ" },
+	callback = vim.lsp.buf.format,
 })

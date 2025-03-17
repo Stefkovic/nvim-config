@@ -5,23 +5,30 @@ return {
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
 			"MeanderingProgrammer/render-markdown.nvim",
+			"j-hui/fidget.nvim",
 		},
 		config = function()
 			require("render-markdown").setup({
 				file_types = { "markdown", "codecompanion" },
 			})
 			require("codecompanion").setup({
+				adapters = {
+					copilot = function()
+						return require("codecompanion.adapters").extend("copilot", {
+							schema = {
+								model = {
+									default = "claude-3.7-sonnet",
+								},
+							},
+						})
+					end,
+				},
 				strategies = {
 					chat = {
 						adapter = "copilot",
 					},
 					inline = {
 						adapter = "copilot",
-					},
-				},
-				adapters = {
-					opts = {
-						show_defaults = true,
 					},
 				},
 				display = {
