@@ -55,6 +55,7 @@ return {
 			vim.keymap.set("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
 
 			vim.cmd([[cab cc CodeCompanion]])
+			require("config.spinner"):init()
 		end,
 	},
 }
