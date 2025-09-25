@@ -28,6 +28,11 @@ return {
 			desc = "Find LSP",
 		},
 		{
+			"<leader>fg",
+			"<cmd>FzfLua live_grep<cr>",
+			desc = "Find Grep",
+		},
+		{
 			"<leader>fC",
 			"<cmd>FzfLua commands<cr>",
 			desc = "Neovim Commands",
