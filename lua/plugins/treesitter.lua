@@ -1,74 +1,39 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
-	dependencies = { "windwp/nvim-ts-autotag" },
 	build = ":TSUpdate",
+	event = { "BufReadPost", "BufNewFile" },
 	main = "nvim-treesitter.configs",
 	opts = {
 		ensure_installed = {
-			"bash",
-			"c",
-			"cmake",
-			"cpp",
-			"css",
-			"csv",
-			"comment",
-			"dart",
-			"devicetree",
-			"diff",
-			"dockerfile",
-			"gitignore",
-			"go",
-			"gowork",
-			"gomod",
-			"gosum",
-			"gotmpl",
-			"html",
-			"javascript",
-			"json",
-			"kotlin",
 			"lua",
-			"make",
+			"vim",
+			"vimdoc",
 			"markdown",
 			"markdown_inline",
 			"php",
-			"query",
-			"regex",
-			"ruby",
-			"svelte",
-			"swift",
-			"sql",
-			"templ",
-			"terraform",
-			"toml",
-			"typescript",
-			"vim",
-			"vimdoc",
-			"xml",
-			"yaml",
+			"html",
+			"blade",
 		},
+		sync_install = false,
 		auto_install = true,
 		highlight = {
 			enable = true,
-			-- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-			--  If you are experiencing weird indenting issues, add the language to
-			--  the list of additional_vim_regex_highlighting and disabled languages for indent.
-			additional_vim_regex_highlighting = { "ruby" },
+			additional_vim_regex_highlighting = false,
 		},
 		indent = {
 			enable = true,
-			disable = { "ruby" },
-		},
-		autotag = {
-			enable = true,
-		},
-		incremental_selection = {
-			enable = true,
-			keymaps = {
-				init_selection = "<C-space>",
-				node_incremental = "<C-space>",
-				scope_incremental = false,
-				node_decremental = "<bs>",
-			},
 		},
 	},
+	config = function(_, opts)
+		local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+		parser_config.blade = {
+			install_info = {
+				url = "https://github.com/EmranMR/tree-sitter-blade",
+				files = { "src/parser.c" },
+				branch = "main",
+			},
+			filetype = "blade",
+		}
+		require("nvim-treesitter.configs").setup(opts)
+	end,
 }
