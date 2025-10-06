@@ -18,9 +18,9 @@ vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.breakindent = true
 vim.opt.listchars = {
-    tab = "» ",
-    trail = "·",
-    nbsp = "␣"
+  tab = "» ",
+  trail = "·",
+  nbsp = "␣"
 }
 
 -- Mouse and clipboard
@@ -40,14 +40,14 @@ vim.opt.completeopt = "menuone,noselect"
 
 -- Diagnostics
 vim.diagnostic.config({
-    virtual_text = false,
-    virtual_lines = true,
-    signs = true,
-    update_in_insert = false,
-    underline = true,
-    severity_sort = true,
-    float = {
-        border = "rounded",
-        source = true
-    }
+  virtual_text = false,
+  virtual_lines = true,
+  signs = true,
+  update_in_insert = false,
+  underline = false,
+  severity_sort = true,
+  float = {
+    border = "rounded",
+    source = true
+  }
 })
