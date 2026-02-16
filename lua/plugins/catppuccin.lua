@@ -5,10 +5,12 @@ return {
   opts = {
     flavour = "mocha",
     integrations = {
-      native_lsp = {
-        enabled = true,
-      },
+      blink_cmp = true,
+      gitsigns = true,
+      mini = { enabled = true },
+      native_lsp = { enabled = true },
       treesitter = true,
+      which_key = true,
     },
   },
   config = function(_, opts)

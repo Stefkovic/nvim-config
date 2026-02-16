@@ -12,12 +12,20 @@ local function on_attach(client, bufnr)
   map("n", "K", vim.lsp.buf.hover, "Hover Documentation")
   map("n", "<leader>rn", vim.lsp.buf.rename, "Rename Symbol")
   map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code Action")
-  map("n", "<leader>f", function()
-    vim.lsp.buf.format({ timeout_ms = 3000 })
+  map("n", "<leader>cf", function()
+    local has_conform, conform = pcall(require, "conform")
+    if has_conform then
+      conform.format({ timeout_ms = 3000, lsp_fallback = true })
+    else
+      vim.lsp.buf.format({ timeout_ms = 3000 })
+    end
   end, "Format Buffer")
   map("n", "[d", vim.diagnostic.goto_prev, "Previous Diagnostic")
   map("n", "]d", vim.diagnostic.goto_next, "Next Diagnostic")
   map("n", "<leader>e", vim.diagnostic.open_float, "Show Diagnostic")
+  map("n", "gt", vim.lsp.buf.type_definition, "Type Definition")
+  map("n", "<leader>q", vim.diagnostic.setloclist, "Diagnostics to Loclist")
+  map("n", "<leader>ws", vim.lsp.buf.workspace_symbol, "Workspace Symbols")
 
   -- Enable inlay hints if supported
   if client.supports_method("textDocument/inlayHint") then

@@ -7,11 +7,22 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
--- Format on save
+-- Format on save (prefer conform, fallback to LSP)
 vim.api.nvim_create_autocmd("BufWritePre", {
   group = vim.api.nvim_create_augroup("format-on-save", { clear = true }),
   callback = function(args)
-    vim.lsp.buf.format({ bufnr = args.buf, timeout_ms = 3000 })
+    local has_conform, conform = pcall(require, "conform")
+    if has_conform then
+      conform.format({ bufnr = args.buf, timeout_ms = 3000, lsp_fallback = true })
+    else
+      vim.lsp.buf.format({
+        bufnr = args.buf,
+        timeout_ms = 3000,
+        filter = function(client)
+          return client.supports_method("textDocument/formatting")
+        end,
+      })
+    end
   end,
 })
 

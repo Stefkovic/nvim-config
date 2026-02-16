@@ -37,6 +37,48 @@ return {
     "<leader>fd",
     "<cmd>FzfLua diagnostics_document<cr>",
     desc = "Document Diagnostics"
+  }, {
+    "<leader>fD",
+    "<cmd>FzfLua diagnostics_workspace<cr>",
+    desc = "Workspace Diagnostics"
+  }, {
+    "<leader>fv",
+    function() require("fzf-lua").files({ cwd = vim.fn.stdpath("config") }) end,
+    desc = "Neovim Config"
+  }, {
+    "<leader>gl",
+    "<cmd>FzfLua git_commits<cr>",
+    desc = "Log"
+  }, {
+    "<leader>gL",
+    "<cmd>FzfLua git_bcommits<cr>",
+    desc = "Log (buffer)"
+  }, {
+    "<leader>gS",
+    "<cmd>FzfLua git_status<cr>",
+    desc = "Status"
+  }, {
+    "<leader>la",
+    function()
+      local fzf = require("fzf-lua")
+      local use_ddev = vim.fn.executable("ddev") == 1 and vim.fs.root(0, { ".ddev" })
+      local cmd = use_ddev and "ddev artisan" or "php artisan"
+      fzf.fzf_exec(cmd .. " list --raw --no-ansi 2>/dev/null | awk '{print $1}'", {
+        prompt = "Artisan> ",
+        actions = {
+          ["default"] = function(selected)
+            vim.ui.input({ prompt = "artisan " .. selected[1] .. " " }, function(args)
+              if args then
+                vim.cmd("botright split | terminal " .. cmd .. " " .. selected[1] .. " " .. args)
+              else
+                vim.cmd("botright split | terminal " .. cmd .. " " .. selected[1])
+              end
+            end)
+          end,
+        },
+      })
+    end,
+    desc = "Artisan"
   } },
   opts = {
     fzf_opts = {
