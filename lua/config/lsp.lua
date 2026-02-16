@@ -77,7 +77,7 @@ vim.api.nvim_create_autocmd("FileType", {
             if not notified_missing[config.cmd[1]] then
               notified_missing[config.cmd[1]] = true
               vim.notify(
-                string.format("LSP server '%s' not installed\nCommand '%s' not found", config.name or server,
+                string.format("LSP server '%s' not found\nRun :Mason to install '%s'", config.name or server,
                   config.cmd[1]),
                 vim.log.levels.WARN,
                 { title = "LSP Missing" }

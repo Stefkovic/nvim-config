@@ -21,6 +21,7 @@ return {
           { icon = "󰦛 ", key = "s", desc = "Restore Session", action = function() require("persistence").load() end },
           { icon = "󰒓 ", key = "v", desc = "Neovim Config", action = function() require("fzf-lua").files({ cwd = vim.fn.stdpath("config") }) end },
           { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
+          { icon = "󰣪 ", key = "m", desc = "Mason", action = ":Mason" },
           { icon = "󰈆 ", key = "q", desc = "Quit", action = ":qa" },
         },
       },
