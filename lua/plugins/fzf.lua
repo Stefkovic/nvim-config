@@ -58,6 +58,10 @@ return {
     "<cmd>FzfLua git_status<cr>",
     desc = "Status"
   }, {
+    "<leader>gg",
+    function() Snacks.lazygit() end,
+    desc = "Lazygit"
+  }, {
     "<leader>la",
     function()
       local fzf = require("fzf-lua")

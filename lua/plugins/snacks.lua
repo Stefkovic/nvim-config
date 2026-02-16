@@ -6,6 +6,12 @@ return {
     input = {},
     picker = {},
     terminal = {},
+    lazygit = {},
+    indent = { enabled = true },
+    words = { enabled = true },
+    quickfile = { enabled = true },
+    rename = { enabled = true },
+    bigfile = { enabled = true },
     dashboard = {
       preset = {
         keys = {
