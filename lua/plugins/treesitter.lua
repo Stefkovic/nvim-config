@@ -33,51 +33,39 @@ return {
     event = { "BufReadPost", "BufNewFile" },
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     config = function()
+      local select = require("nvim-treesitter-textobjects.select")
+      local move = require("nvim-treesitter-textobjects.move")
+      local swap = require("nvim-treesitter-textobjects.swap")
+
       require("nvim-treesitter-textobjects").setup({
-        select = {
-          enable = true,
-          lookahead = true,
-          keymaps = {
-            ["af"] = { query = "@function.outer", desc = "outer function" },
-            ["if"] = { query = "@function.inner", desc = "inner function" },
-            ["ac"] = { query = "@class.outer", desc = "outer class" },
-            ["ic"] = { query = "@class.inner", desc = "inner class" },
-            ["aa"] = { query = "@parameter.outer", desc = "outer argument" },
-            ["ia"] = { query = "@parameter.inner", desc = "inner argument" },
-          },
-        },
-        move = {
-          enable = true,
-          set_jumps = true,
-          goto_next_start = {
-            ["]f"] = { query = "@function.outer", desc = "Next function start" },
-            ["]c"] = { query = "@class.outer", desc = "Next class start" },
-            ["]a"] = { query = "@parameter.inner", desc = "Next argument" },
-          },
-          goto_next_end = {
-            ["]F"] = { query = "@function.outer", desc = "Next function end" },
-            ["]C"] = { query = "@class.outer", desc = "Next class end" },
-          },
-          goto_previous_start = {
-            ["[f"] = { query = "@function.outer", desc = "Previous function start" },
-            ["[c"] = { query = "@class.outer", desc = "Previous class start" },
-            ["[a"] = { query = "@parameter.inner", desc = "Previous argument" },
-          },
-          goto_previous_end = {
-            ["[F"] = { query = "@function.outer", desc = "Previous function end" },
-            ["[C"] = { query = "@class.outer", desc = "Previous class end" },
-          },
-        },
-        swap = {
-          enable = true,
-          swap_next = {
-            ["<leader>sa"] = { query = "@parameter.inner", desc = "Swap with next argument" },
-          },
-          swap_previous = {
-            ["<leader>sA"] = { query = "@parameter.inner", desc = "Swap with previous argument" },
-          },
-        },
+        select = { lookahead = true },
+        move = { set_jumps = true },
       })
+
+      -- Select
+      local sel = function(query) return function() select.select_textobject(query) end end
+      vim.keymap.set({ "x", "o" }, "af", sel("@function.outer"), { desc = "outer function" })
+      vim.keymap.set({ "x", "o" }, "if", sel("@function.inner"), { desc = "inner function" })
+      vim.keymap.set({ "x", "o" }, "ac", sel("@class.outer"), { desc = "outer class" })
+      vim.keymap.set({ "x", "o" }, "ic", sel("@class.inner"), { desc = "inner class" })
+      vim.keymap.set({ "x", "o" }, "aa", sel("@parameter.outer"), { desc = "outer argument" })
+      vim.keymap.set({ "x", "o" }, "ia", sel("@parameter.inner"), { desc = "inner argument" })
+
+      -- Move
+      vim.keymap.set({ "n", "x", "o" }, "]f", function() move.goto_next_start("@function.outer") end, { desc = "Next function start" })
+      vim.keymap.set({ "n", "x", "o" }, "]c", function() move.goto_next_start("@class.outer") end, { desc = "Next class start" })
+      vim.keymap.set({ "n", "x", "o" }, "]a", function() move.goto_next_start("@parameter.inner") end, { desc = "Next argument" })
+      vim.keymap.set({ "n", "x", "o" }, "]F", function() move.goto_next_end("@function.outer") end, { desc = "Next function end" })
+      vim.keymap.set({ "n", "x", "o" }, "]C", function() move.goto_next_end("@class.outer") end, { desc = "Next class end" })
+      vim.keymap.set({ "n", "x", "o" }, "[f", function() move.goto_previous_start("@function.outer") end, { desc = "Previous function start" })
+      vim.keymap.set({ "n", "x", "o" }, "[c", function() move.goto_previous_start("@class.outer") end, { desc = "Previous class start" })
+      vim.keymap.set({ "n", "x", "o" }, "[a", function() move.goto_previous_start("@parameter.inner") end, { desc = "Previous argument" })
+      vim.keymap.set({ "n", "x", "o" }, "[F", function() move.goto_previous_end("@function.outer") end, { desc = "Previous function end" })
+      vim.keymap.set({ "n", "x", "o" }, "[C", function() move.goto_previous_end("@class.outer") end, { desc = "Previous class end" })
+
+      -- Swap
+      vim.keymap.set("n", "<leader>sa", function() swap.swap_next("@parameter.inner") end, { desc = "Swap with next argument" })
+      vim.keymap.set("n", "<leader>sA", function() swap.swap_previous("@parameter.inner") end, { desc = "Swap with previous argument" })
     end,
   },
 }
