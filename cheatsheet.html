@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Neovim Cheat Sheet</title>
+<style>
+  @page { size: A4 landscape; margin: 8mm; }
+  .header {
+    text-align: center;
+    margin-bottom: 6px;
+  }
+  .header h1 { font-size: 14pt; display: inline; letter-spacing: 1px; }
+  .header span { font-size: 8pt; color: #6c7086; margin-left: 8px; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "SF Mono", "Fira Code", "JetBrains Mono", Menlo, Consolas, monospace;
+    font-size: 7pt;
+    line-height: 1.3;
+    color: #1e1e2e;
+    background: #fff;
+    padding: 8mm;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 6px;
+  }
+  .section {
+    break-inside: avoid;
+    border: 1px solid #cdd6f4;
+    border-radius: 4px;
+    padding: 4px 5px;
+    background: #f5f5ff;
+  }
+  .section h2 {
+    font-size: 7.5pt;
+    color: #fff;
+    background: #89b4fa;
+    margin: -4px -5px 3px -5px;
+    padding: 2px 5px;
+    border-radius: 3px 3px 0 0;
+  }
+  .section.vim h2 { background: #a6e3a1; color: #1e1e2e; }
+  .section.lsp h2 { background: #cba6f7; }
+  .section.git h2 { background: #fab387; color: #1e1e2e; }
+  .section.ai h2 { background: #94e2d5; color: #1e1e2e; }
+  .section.find h2 { background: #89b4fa; }
+  .section.tree h2 { background: #f9e2af; color: #1e1e2e; }
+  .section.other h2 { background: #7f849c; }
+  table { width: 100%; border-collapse: collapse; }
+  tr:nth-child(even) { background: rgba(0,0,0,0.03); }
+  td { padding: 1px 2px; vertical-align: top; }
+  td:first-child {
+    white-space: nowrap;
+    font-weight: bold;
+    color: #1e1e2e;
+    width: 42%;
+  }
+  kbd {
+    background: #fff;
+    color: #1e1e2e;
+    border: 1px solid #888;
+    padding: 0 2px;
+    border-radius: 2px;
+    font-size: 6.5pt;
+    font-family: inherit;
+  }
+  .sep { border-top: 1px solid #ddd; margin: 2px 0; }
+  @media print {
+    body { padding: 0; margin: 0; }
+    .section { background: #f8f8fc !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>NEOVIM CHEAT SHEET</h1>
+  <span>Leader = Space</span>
+</div>
+
+<div class="grid">
+
+<!-- Column 1 -->
+
+<div class="section vim">
+  <h2>Movement</h2>
+  <table>
+    <tr><td><kbd>h</kbd> <kbd>j</kbd> <kbd>k</kbd> <kbd>l</kbd></td><td>Left / Down / Up / Right</td></tr>
+    <tr><td><kbd>w</kbd> / <kbd>b</kbd></td><td>Next / Prev word start</td></tr>
+    <tr><td><kbd>e</kbd> / <kbd>ge</kbd></td><td>Next / Prev word end</td></tr>
+    <tr><td><kbd>W</kbd> <kbd>B</kbd> <kbd>E</kbd></td><td>Same but WORD</td></tr>
+    <tr><td><kbd>0</kbd> / <kbd>^</kbd> / <kbd>$</kbd></td><td>Line start / First char / End</td></tr>
+    <tr><td><kbd>gg</kbd> / <kbd>G</kbd></td><td>Top / Bottom of file</td></tr>
+    <tr><td><kbd>{</kbd> / <kbd>}</kbd></td><td>Prev / Next paragraph</td></tr>
+    <tr><td><kbd>%</kbd></td><td>Matching bracket</td></tr>
+    <tr><td><kbd>f</kbd><em>c</em> / <kbd>F</kbd><em>c</em></td><td>Jump to / back to char</td></tr>
+    <tr><td><kbd>t</kbd><em>c</em> / <kbd>T</kbd><em>c</em></td><td>Jump before / back before char</td></tr>
+    <tr><td><kbd>;</kbd> / <kbd>,</kbd></td><td>Repeat f/t forward / back</td></tr>
+    <tr><td><kbd>Ctrl-d</kbd> / <kbd>Ctrl-u</kbd></td><td>Half page down / up</td></tr>
+    <tr><td><kbd>Ctrl-o</kbd> / <kbd>Ctrl-i</kbd></td><td>Jumplist back / forward</td></tr>
+    <tr><td><kbd>*</kbd> / <kbd>#</kbd></td><td>Search word forward / back</td></tr>
+  </table>
+</div>
+
+<div class="section vim">
+  <h2>Editing</h2>
+  <table>
+    <tr><td><kbd>i</kbd> / <kbd>a</kbd></td><td>Insert before / after cursor</td></tr>
+    <tr><td><kbd>I</kbd> / <kbd>A</kbd></td><td>Insert at line start / end</td></tr>
+    <tr><td><kbd>o</kbd> / <kbd>O</kbd></td><td>New line below / above</td></tr>
+    <tr><td><kbd>x</kbd></td><td>Delete character</td></tr>
+    <tr><td><kbd>dd</kbd> / <kbd>yy</kbd> / <kbd>cc</kbd></td><td>Delete / Yank / Change line</td></tr>
+    <tr><td><kbd>d</kbd><em>{motion}</em></td><td>Delete (e.g. dw, d$, dip)</td></tr>
+    <tr><td><kbd>c</kbd><em>{motion}</em></td><td>Change (delete + insert)</td></tr>
+    <tr><td><kbd>y</kbd><em>{motion}</em></td><td>Yank (copy)</td></tr>
+    <tr><td><kbd>p</kbd> / <kbd>P</kbd></td><td>Paste after / before</td></tr>
+    <tr><td><kbd>u</kbd> / <kbd>Ctrl-r</kbd></td><td>Undo / Redo</td></tr>
+    <tr><td><kbd>.</kbd></td><td>Repeat last change</td></tr>
+    <tr><td><kbd>>></kbd> / <kbd><<</kbd></td><td>Indent / Dedent</td></tr>
+    <tr><td><kbd>J</kbd></td><td>Join line below</td></tr>
+    <tr><td><kbd>~</kbd></td><td>Toggle case</td></tr>
+  </table>
+</div>
+
+<div class="section vim">
+  <h2>Text Objects</h2>
+  <table>
+    <tr><td><kbd>iw</kbd> / <kbd>aw</kbd></td><td>Inner / A word</td></tr>
+    <tr><td><kbd>is</kbd> / <kbd>as</kbd></td><td>Inner / A sentence</td></tr>
+    <tr><td><kbd>ip</kbd> / <kbd>ap</kbd></td><td>Inner / A paragraph</td></tr>
+    <tr><td><kbd>i"</kbd> / <kbd>a"</kbd></td><td>Inner / A double-quoted</td></tr>
+    <tr><td><kbd>i'</kbd> / <kbd>a'</kbd></td><td>Inner / A single-quoted</td></tr>
+    <tr><td><kbd>i)</kbd> / <kbd>a)</kbd></td><td>Inner / A parentheses</td></tr>
+    <tr><td><kbd>i]</kbd> / <kbd>a]</kbd></td><td>Inner / A brackets</td></tr>
+    <tr><td><kbd>i}</kbd> / <kbd>a}</kbd></td><td>Inner / A braces</td></tr>
+    <tr><td><kbd>it</kbd> / <kbd>at</kbd></td><td>Inner / A HTML tag</td></tr>
+  </table>
+  <div class="sep"></div>
+  <table>
+    <tr><td><kbd>v</kbd> / <kbd>V</kbd> / <kbd>Ctrl-v</kbd></td><td>Visual / Line / Block</td></tr>
+    <tr><td><kbd>gv</kbd></td><td>Reselect last selection</td></tr>
+    <tr><td><kbd>"a</kbd><em>y/p</em></td><td>Yank/Paste register a</td></tr>
+    <tr><td><kbd>"+</kbd><em>y/p</em></td><td>System clipboard</td></tr>
+  </table>
+</div>
+
+<!-- Column 2 -->
+
+<div class="section find">
+  <h2>Find &lt;leader&gt;f</h2>
+  <table>
+    <tr><td><kbd>Space</kbd> <kbd>ff</kbd></td><td>Find Files</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>fg</kbd></td><td>Live Grep</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>fb</kbd></td><td>Buffers</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>fh</kbd></td><td>Help Tags</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>fr</kbd></td><td>Resume last search</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>fo</kbd></td><td>Recent Files</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>fc</kbd></td><td>Commands</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>fs</kbd></td><td>Document Symbols</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>fd</kbd></td><td>Document Diagnostics</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>fD</kbd></td><td>Workspace Diagnostics</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>fv</kbd></td><td>Neovim Config files</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>ft</kbd></td><td>Todo Comments</td></tr>
+  </table>
+</div>
+
+<div class="section lsp">
+  <h2>LSP / Code</h2>
+  <table>
+    <tr><td><kbd>gd</kbd></td><td>Go to Definition</td></tr>
+    <tr><td><kbd>gr</kbd></td><td>Go to References</td></tr>
+    <tr><td><kbd>gD</kbd></td><td>Go to Declaration</td></tr>
+    <tr><td><kbd>gi</kbd></td><td>Go to Implementation</td></tr>
+    <tr><td><kbd>gt</kbd></td><td>Type Definition</td></tr>
+    <tr><td><kbd>K</kbd></td><td>Hover Documentation</td></tr>
+    <tr><td><kbd>[d</kbd> / <kbd>]d</kbd></td><td>Prev / Next Diagnostic</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>e</kbd></td><td>Show Diagnostic float</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>cf</kbd></td><td>Format Buffer</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>ca</kbd></td><td>Code Action</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>rs</kbd></td><td>Rename Symbol</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>rn</kbd></td><td>Rename File</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>q</kbd></td><td>Diagnostics to Loclist</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>ws</kbd></td><td>Workspace Symbols</td></tr>
+  </table>
+</div>
+
+<div class="section git">
+  <h2>Git &lt;leader&gt;g</h2>
+  <table>
+    <tr><td><kbd>Space</kbd> <kbd>gg</kbd></td><td>Lazygit</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>gl</kbd></td><td>Git Log</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>gL</kbd></td><td>Git Log (buffer)</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>gS</kbd></td><td>Git Status</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>gs</kbd></td><td>Stage Hunk</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>gr</kbd></td><td>Reset Hunk</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>gu</kbd></td><td>Undo Stage Hunk</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>gp</kbd></td><td>Preview Hunk</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>gb</kbd></td><td>Blame Line</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>gd</kbd></td><td>Diff This</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>gD</kbd></td><td>Diff This ~</td></tr>
+    <tr><td><kbd>[h</kbd> / <kbd>]h</kbd></td><td>Prev / Next Hunk</td></tr>
+  </table>
+</div>
+
+<!-- Column 3 -->
+
+<div class="section tree">
+  <h2>Treesitter Objects &amp; Movement</h2>
+  <table>
+    <tr><td><kbd>af</kbd> / <kbd>if</kbd></td><td>Outer / Inner function</td></tr>
+    <tr><td><kbd>ac</kbd> / <kbd>ic</kbd></td><td>Outer / Inner class</td></tr>
+    <tr><td><kbd>aa</kbd> / <kbd>ia</kbd></td><td>Outer / Inner argument</td></tr>
+  </table>
+  <div class="sep"></div>
+  <table>
+    <tr><td><kbd>]f</kbd> / <kbd>[f</kbd></td><td>Next / Prev function start</td></tr>
+    <tr><td><kbd>]F</kbd> / <kbd>[F</kbd></td><td>Next / Prev function end</td></tr>
+    <tr><td><kbd>]c</kbd> / <kbd>[c</kbd></td><td>Next / Prev class start</td></tr>
+    <tr><td><kbd>]C</kbd> / <kbd>[C</kbd></td><td>Next / Prev class end</td></tr>
+    <tr><td><kbd>]a</kbd> / <kbd>[a</kbd></td><td>Next / Prev argument</td></tr>
+    <tr><td><kbd>]t</kbd> / <kbd>[t</kbd></td><td>Next / Prev TODO</td></tr>
+  </table>
+  <div class="sep"></div>
+  <table>
+    <tr><td><kbd>Space</kbd> <kbd>sa</kbd></td><td>Swap with next arg</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>sA</kbd></td><td>Swap with prev arg</td></tr>
+  </table>
+</div>
+
+<div class="section tree">
+  <h2>Surround (mini.surround)</h2>
+  <table>
+    <tr><td><kbd>sa</kbd><em>{motion}{char}</em></td><td>Add surround</td></tr>
+    <tr><td><kbd>sd</kbd><em>{char}</em></td><td>Delete surround</td></tr>
+    <tr><td><kbd>sr</kbd><em>{old}{new}</em></td><td>Replace surround</td></tr>
+  </table>
+  <div class="sep"></div>
+  <em>Examples: <kbd>saiw"</kbd> surround word with ", <kbd>sd"</kbd> delete surrounding ", <kbd>sr"'</kbd> change " to '</em>
+</div>
+
+<div class="section ai">
+  <h2>AI &lt;leader&gt;a</h2>
+  <table>
+    <tr><td><kbd>Space</kbd> <kbd>aa</kbd></td><td>Toggle AI assistant</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>ap</kbd></td><td>Ask with context</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>as</kbd></td><td>Select action</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>ao</kbd></td><td>Add range to prompt</td></tr>
+  </table>
+</div>
+
+<div class="section other">
+  <h2>Session &lt;leader&gt;q</h2>
+  <table>
+    <tr><td><kbd>Space</kbd> <kbd>qs</kbd></td><td>Restore Session</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>ql</kbd></td><td>Restore Last Session</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>qd</kbd></td><td>Don't Save Session</td></tr>
+  </table>
+</div>
+
+<div class="section other">
+  <h2>Other</h2>
+  <table>
+    <tr><td><kbd>Space</kbd> <kbd>y</kbd></td><td>Yazi file manager</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>la</kbd></td><td>Artisan (Laravel)</td></tr>
+    <tr><td><kbd>Space</kbd> <kbd>?</kbd></td><td>Show buffer keymaps</td></tr>
+    <tr><td><kbd>Esc</kbd> <kbd>Esc</kbd></td><td>Exit terminal mode</td></tr>
+    <tr><td><kbd>Ctrl-w s</kbd> / <kbd>v</kbd></td><td>Split horiz / vert</td></tr>
+    <tr><td><kbd>Ctrl-w h/j/k/l</kbd></td><td>Navigate splits</td></tr>
+    <tr><td><kbd>Ctrl-w q</kbd></td><td>Close split</td></tr>
+  </table>
+</div>
+
+<div class="section other">
+  <h2>Dashboard</h2>
+  <table>
+    <tr><td><kbd>f</kbd></td><td>Find File</td></tr>
+    <tr><td><kbd>g</kbd></td><td>Live Grep</td></tr>
+    <tr><td><kbd>o</kbd></td><td>Recent Files</td></tr>
+    <tr><td><kbd>s</kbd></td><td>Restore Session</td></tr>
+    <tr><td><kbd>v</kbd></td><td>Neovim Config</td></tr>
+    <tr><td><kbd>l</kbd> / <kbd>m</kbd></td><td>Lazy / Mason</td></tr>
+    <tr><td><kbd>q</kbd></td><td>Quit</td></tr>
+  </table>
+</div>
+
+</div>
+
+</body>
+</html>
