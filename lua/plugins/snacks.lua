@@ -2,6 +2,9 @@ return {
   "folke/snacks.nvim",
   priority = 1000,
   lazy = false,
+  keys = {
+    { "<leader>fe", function() Snacks.picker.explorer() end, desc = "Explorer" },
+  },
   opts = {
     input = {},
     picker = {},
