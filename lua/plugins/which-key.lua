@@ -13,6 +13,7 @@ return {
 			{ "<leader>s", group = "Swap", icon = "󰓡 " },
 			{ "<leader>l", group = "Laravel", icon = "󰫐 " },
 			{ "<leader>g", group = "Git", icon = "󰊢 " },
+			{ "<leader>t", group = "Zellij", icon = "󰆍 " },
 		},
 	},
 	keys = {
